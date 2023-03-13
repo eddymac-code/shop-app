@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +17,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+Route::group(['prefix' => 'setting'], function() {
+    Route::controller(SettingController::class)->group(function () {
+        Route::get('data', 'index')->name('settings');
+        Route::put('update', 'update')->name('update-settings');
+    });
 });

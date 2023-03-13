@@ -2,6 +2,6 @@
 
 @section('content')
     <div class="container">
-        {{ 'Hey!' }}
+        <h1>Welcome!!</h1>
     </div>
 @endsection
