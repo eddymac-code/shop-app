@@ -6,6 +6,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,16 @@ Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate']);
+
+Route::group(['prefix' => 'user'], function() {
+    Route::controller(UserController::class)->group(function () {
+        Route::get('data', 'index')->name('users');
+        Route::get('create', 'create')->name('create-user');
+        Route::post('create', 'store');
+        Route::get('{id}/edit', 'edit')->name('edit-user');
+        Route::post('{id}/edit', 'update');
+    });
+});
 
 Route::group(['prefix' => 'setting'], function() {
     Route::controller(SettingController::class)->group(function () {

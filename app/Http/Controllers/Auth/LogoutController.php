@@ -9,6 +9,10 @@ use Illuminate\Http\RedirectResponse;
 
 class LogoutController extends Controller
 {
+    public function __construct() {
+        $this->middleware(['auth']);
+    }
+
     public function logout(Request $request): RedirectResponse
     {
         Auth::logout();

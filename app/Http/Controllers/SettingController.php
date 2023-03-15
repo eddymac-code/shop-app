@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class SettingController extends Controller
 {
     public function __construct() {
-        // $this->middleware(['auth']);
+        $this->middleware(['auth']);
     }
     
     public function index()
@@ -36,7 +36,7 @@ class SettingController extends Controller
         Setting::where('setting_key', 'currency_position')->update(['setting_value' => $request->currency_position]);
 
         if ($request->hasFile('shop_logo')) {
-            $destination_path = 'public/images';
+            $destination_path = 'public/images/general';
             $photo = $request->file('shop_logo');
             $photo_name = $photo->getClientOriginalName();
             $request->file('shop_logo')->storeAs($destination_path, $photo_name);
