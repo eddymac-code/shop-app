@@ -145,6 +145,18 @@
                   <p>Add User</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{{ route('roles') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Roles</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('permissions') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Permissions</p>
+                </a>
+              </li>
             </ul>
           </li>
           <li class="nav-item">

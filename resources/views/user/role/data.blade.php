@@ -8,12 +8,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Users</h1>
+            <h1 class="m-0">Roles</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-              <li class="breadcrumb-item active">Users</li>
+              <li class="breadcrumb-item">Users</li>
+              <li class="breadcrumb-item active">Roles</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -39,8 +40,7 @@
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Role(s)</th>
+                <th scope="col">Slug</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -48,24 +48,17 @@
                 <?php $i=0 ?>
                 @if (!$data)
                     <tr>
-                        <td colspan="5" class="text-center">No data available.</td>
+                        <td colspan="4" class="text-center">No data available.</td>
                     </tr>
                 @else
-                    @foreach ($data as $user)
+                    @foreach ($data as $role)
                         <tr>
                             <th scope="row">{{ ++$i }}</th>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
+                            <td>{{ $role->name }}</td>
+                            <td>{{ $role->slug }}</td>
                             <td>
-                              <ul>
-                                @foreach ($user->roles as $role)
-                                    <li>{{ $role->name }}</li>
-                                @endforeach
-                              </ul>
-                            </td>
-                            <td>
-                              <a href="{{ route('edit-user', $user->id) }}" class="btn btn-outline-info">Edit</a>
-                              <form action="{{ route('delete-user', $user->id) }}" method="post" class="d-inline-block">
+                              <a href="{{ route('edit-role', $role->id) }}" class="btn btn-outline-info">Edit</a>
+                              <form action="{{ route('delete-role', $role->id) }}" method="post" class="d-inline-block">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" onclick="confirm('Are you sure?')" class="btn btn-outline-danger">Delete</button>

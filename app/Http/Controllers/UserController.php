@@ -107,6 +107,10 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
+        if ($id === '1') {
+            return back()->with('error', 'This user cannot be removed!');
+        }
+
         $user = User::find($id);
         $user->delete();
 

@@ -33,7 +33,7 @@
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
                         <input type="text" name="email" class="form-control @error('name')
-                        border border-danger @enderror" value="{{ old('name') }}" id="name">
+                        border border-danger @enderror" value="{{ $user->name }}" id="name">
                           @error('name')
                               <div class="text-danger mt-2 fs-6">
                                   {{ $message }}
@@ -43,7 +43,7 @@
                     <div class="mb-3">
                       <label for="email" class="form-label">Email</label>
                       <input type="email" name="email" class="form-control @error('email')
-                      border border-danger @enderror" value="{{ old('email') }}" id="email">
+                      border border-danger @enderror" value="{{ $user->email }}" id="email">
                         @error('email')
                             <div class="text-danger mt-2 fs-6">
                                 {{ $message }}
