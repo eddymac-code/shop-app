@@ -35,6 +35,9 @@
                 {{ session('error') }}
             </div>
         @endif
+        <div class="mb-3">
+          <a href="{{ route('create-role') }}" class="btn btn-primary mb-3 float-right">Add New</a>
+        </div>
         <table class="table">
             <thead>
               <tr>
@@ -57,8 +60,9 @@
                             <td>{{ $role->name }}</td>
                             <td>{{ $role->slug }}</td>
                             <td>
-                              <a href="{{ route('edit-role', $role->id) }}" class="btn btn-outline-info">Edit</a>
-                              <form action="{{ route('delete-role', $role->id) }}" method="post" class="d-inline-block">
+                              <a href="{{ route('show-role', $role) }}" class="btn btn-outline-primary">Show</a>
+                              <a href="{{ route('edit-role', $role) }}" class="btn btn-outline-info">Edit</a>
+                              <form action="{{ route('delete-role', $role) }}" method="post" class="d-inline-block">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" onclick="confirm('Are you sure?')" class="btn btn-outline-danger">Delete</button>

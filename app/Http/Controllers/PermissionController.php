@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 class PermissionController extends Controller
 {
+    public function __construct() {
+        $this->middleware(['auth']);
+    }
     /**
      * Display a listing of the resource.
      */
@@ -51,6 +55,11 @@ class PermissionController extends Controller
         $permission->slug = str()->snake($request->name);
         // str_slug($request->name, '_');
         $permission->save();
+
+        $admin = Role::where('slug','super_admin')->first();
+        if ($admin) {
+            $this->assignPermission($admin, [$permission->id]);
+        }
 
         return redirect()->route('permissions')->with('success', 'Added successfully!');
     }
@@ -109,5 +118,10 @@ class PermissionController extends Controller
         $permission->delete();
 
         return redirect()->route('permissions')->with('success', 'Successfully deleted.');
+    }
+
+    protected function assignPermission($role, $permission)
+    {
+        return $role->permissions()->syncWithoutDetaching($permission);
     }
 }

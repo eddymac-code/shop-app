@@ -34,6 +34,9 @@
                 {{ session('error') }}
             </div>
         @endif
+        <div class="mb-3">
+          <a href="{{ route('create-user') }}" class="btn btn-primary mb-3 float-right">Add User</a>
+        </div>
         <table class="table">
             <thead>
               <tr>
@@ -64,6 +67,7 @@
                               </ul>
                             </td>
                             <td>
+                              <a href="{{ route('show-user', $user) }}" class="btn btn-outline-primary">Show</a>
                               <a href="{{ route('edit-user', $user->id) }}" class="btn btn-outline-info">Edit</a>
                               <form action="{{ route('delete-user', $user->id) }}" method="post" class="d-inline-block">
                                 @csrf

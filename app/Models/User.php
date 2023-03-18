@@ -48,4 +48,17 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class);
     }
+
+    public function hasAccessTo(string $slug): bool
+    {
+        foreach ($this->roles as $key) {
+            foreach ($key->permissions as $value) {
+                if ($value->slug === str()->snake($slug)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
+    }
 }

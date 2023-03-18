@@ -43,9 +43,12 @@ Route::group(['prefix' => 'user'], function() {
         Route::get('data', 'index')->name('users');
         Route::get('create', 'create')->name('create-user');
         Route::post('create', 'store');
+        Route::get('{user}/show', 'show')->name('show-user');
         Route::get('{id}/edit', 'edit')->name('edit-user');
-        Route::post('{id}/edit', 'update');
+        Route::put('{id}/edit', 'update');
         Route::delete('{id}/delete','destroy')->name('delete-user');
+        Route::get('{user}/assign-role', 'assign_roles')->name('assign-roles');
+        Route::post('{user}/assign-role', 'assign_roles_store');
     });
 });
 
@@ -55,9 +58,12 @@ Route::group(['prefix' => 'user/role'], function() {
         Route::get('data', 'index')->name('roles');
         Route::get('create', 'create')->name('create-role');
         Route::post('create', 'store');
-        Route::get('{id}/edit', 'edit')->name('edit-role');
-        Route::post('{id}/edit', 'update');
-        Route::delete('{id}/delete','destroy')->name('delete-role');
+        Route::get('{role}/show', 'show')->name('show-role');
+        Route::get('{role}/edit', 'edit')->name('edit-role');
+        Route::put('{role}/edit', 'update');
+        Route::delete('{role}/delete','destroy')->name('delete-role');
+        Route::get('{role}/assign-permissions', 'assign_permissions')->name('assign-permissions');
+        Route::post('{role}/assign-permissions', 'assign_permissions_store');
     });
 });
 
@@ -68,7 +74,7 @@ Route::group(['prefix' => 'user/permission'], function() {
         Route::get('create', 'create')->name('create-permission');
         Route::post('create', 'store');
         Route::get('{permission}/edit', 'edit')->name('edit-permission');
-        Route::post('{permission}/edit', 'update');
+        Route::put('{permission}/edit', 'update');
         Route::delete('{permission}/delete','destroy')->name('delete-permission');
     });
 });

@@ -6,6 +6,7 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
+use App\Models\Permission;
 
 class RoleController extends Controller
 {
@@ -52,7 +53,7 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        //
+        return view('user.role.show', ['role' => $role]);
     }
 
     /**
@@ -86,5 +87,58 @@ class RoleController extends Controller
         $role->delete();
 
         return redirect()->route('roles')->with('success', 'Role successfully deleted');
+    }
+
+    /**
+     * Assign permissions to specified resource
+     */
+    public function assign_permissions(Role $role)
+    {
+        $data = [];
+        $permissions = Permission::where('parent_id', 0)->get();
+        foreach ($permissions as $permission) {
+            array_push($data, $permission);
+            $sub_permissions = Permission::where('parent_id', $permission->id)->get();
+            foreach ($sub_permissions as $value) {
+                array_push($data, $value);
+            }
+        }
+        
+        return view('user.role.assign_permissions', [
+            'role' => $role,
+            'data' => $data,
+        ]);
+    }
+
+    public function assign_permissions_store(Role $role, Request $request)
+    {
+        /* // This contains permissions to be detached(if they are already attached).
+        $permissions = [];
+
+        // Get role's permissions and check whether they exist in the request.
+        // If not, push them to $permissions array
+        foreach ($role->permissions as $permission) {
+            if (!in_array($permission->id, $request->permission_id)) {
+                array_push($permissions, $permission->id);
+            }
+        }
+
+        // Now, do the actual detaching
+        $this->dropPermission($role, $permissions); */
+
+        // Attach the permissions from the request.
+        $this->assignPermission($role, $request->permission_id);
+
+        return redirect()->route('show-role', $role)->with('success', "Permissions updated successfully");
+    }
+
+    protected function assignPermission($role, $permission)
+    {
+        return $role->permissions()->sync($permission);
+    }
+
+    protected function dropPermission($role, $permission)
+    {
+        return $role->permissions()->detach($permission);
     }
 }

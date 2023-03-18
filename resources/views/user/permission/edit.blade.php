@@ -30,6 +30,7 @@
             <div class="p-2 text-dark">
                 <form action="{{ route('edit-permission', $permission) }}" method="POST">
                     @csrf
+                    @method('PUT')
                     <div class="mb-3">
                         <label for="type" class="form-label">Type</label>
                         <select class="form-select" name="type" id="type">

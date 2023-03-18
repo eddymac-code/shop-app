@@ -32,7 +32,7 @@
                     @method('PUT')
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
-                        <input type="text" name="email" class="form-control @error('name')
+                        <input type="text" name="name" class="form-control @error('name')
                         border border-danger @enderror" value="{{ $user->name }}" id="name">
                           @error('name')
                               <div class="text-danger mt-2 fs-6">
