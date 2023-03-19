@@ -13,9 +13,9 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        $query = "INSERT INTO `permissions` (`id`, `parent_id`, `name`, `slug`, `description`)
-        VALUES
-        (1, 0, 'Settings', 'settings', 'Access Settings Module),
+        $query = "INSERT INTO permissions (id, parent_id, name, slug, description)
+        VALUES 
+        (1, 0, 'Settings', 'settings', 'Access Settings Module'),
         (2, 1, 'View Settings', 'view_settings', 'View all settings'),
         (3, 1, 'Update Settings', 'update_settings', 'Update all settings'),
         (4, 0, 'Users', 'users', 'Access Users Module'),
@@ -34,7 +34,16 @@ class PermissionSeeder extends Seeder
         (17, 15, 'Create Permissions', 'create_permissions', 'Create permissions'),
         (18, 15, 'Update Permissions', 'update_permissions', 'Update permissions'),
         (19, 15, 'Delete Permissions', 'delete_permissions', 'Delete permissions'),
-        (20, 15, 'Assign Permissions', 'assign_permissions', 'Assign permissions');";
+        (20, 15, 'Assign Permissions', 'assign_permissions', 'Assign permissions'),
+        (21, 0, 'Products', 'products', 'Access Products Module'),
+        (22, 21, 'Create Products', 'create_products', 'Add products'),
+        (23, 21, 'View Products', 'view_products', 'View products'),
+        (24, 21, 'Update Products', 'update_products', 'Update products'),
+        (25, 21, 'Delete Products', 'delete_products', 'Delete products'),
+        (26, 21, 'Create Product Category', 'create_product_category', ''),
+        (27, 21, 'View Product Category', 'view_product_category', ''),
+        (28, 21, 'Update Product Category', 'update_product_category', ''),
+        (29, 21, 'Delete Product Category', 'delete_product_category', '');";
 
         DB::unprepared($query);
     }

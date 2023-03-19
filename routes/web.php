@@ -4,11 +4,13 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\ProductCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,13 +32,39 @@ Route::get('/clear-cache', function () {
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware(['guest']);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate']);
+
+// For products
+Route::group(['prefix' => 'product'], function() {
+    Route::controller(ProductController::class)->group(function () {
+        Route::get('data', 'index')->name('products');
+        Route::get('create', 'create')->name('create-product');
+        Route::post('create', 'store');
+        Route::get('{product}/show', 'show')->name('show-product');
+        Route::get('{product}/edit', 'edit')->name('edit-product');
+        Route::put('{product}/edit', 'update');
+        Route::delete('{product}/delete','destroy')->name('delete-product');
+    });
+});
+
+// For Product Categories
+Route::group(['prefix' => 'product-category'], function() {
+    Route::controller(ProductCategoryController::class)->group(function () {
+        Route::get('data', 'index')->name('categories');
+        Route::get('create', 'create')->name('create-category');
+        Route::post('create', 'store');
+        Route::get('{product_category}/show', 'show')->name('show-category');
+        Route::get('{product_category}/edit', 'edit')->name('edit-category');
+        Route::put('{product_category}/edit', 'update');
+        Route::delete('{product_category}/delete','destroy')->name('delete-category');
+    });
+});
 
 Route::group(['prefix' => 'user'], function() {
     Route::controller(UserController::class)->group(function () {

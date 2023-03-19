@@ -47,23 +47,51 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tree"></i>
-              <p>
-                UI Elements
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/UI/general.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>General</p>
-                </a>
-              </li>
-            </ul>
-          </li>
+          @if(Auth::user()->hasAccessTo('products'))
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-user"></i>
+                <p>
+                  Products
+                  <i class="fas fa-angle-left right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                @if(Auth::user()->hasAccessTo('view products'))
+                  <li class="nav-item">
+                    <a href="{{ route('products') }}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>View Products</p>
+                    </a>
+                  </li>
+                @endif
+                @if(Auth::user()->hasAccessTo('create products'))
+                  <li class="nav-item">
+                    <a href="{{ route('create-product') }}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Add Product</p>
+                    </a>
+                  </li>
+                @endif
+                @if(Auth::user()->hasAccessTo('view product category'))
+                  <li class="nav-item">
+                    <a href="{{ route('categories') }}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>View Categories</p>
+                    </a>
+                  </li>
+                @endif
+                @if(Auth::user()->hasAccessTo('create product category'))
+                  <li class="nav-item">
+                    <a href="{{ route('create-category') }}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Add Categories</p>
+                    </a>
+                  </li>
+                @endif
+              </ul>
+            </li>
+          @endif
           @if(Auth::user()->hasAccessTo('users'))
             <li class="nav-item">
               <a href="#" class="nav-link">
