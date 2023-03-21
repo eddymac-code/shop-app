@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProductCategory;
 use Illuminate\Http\Request;
+use App\Models\ProductCategory;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProductCategoryController extends Controller
 {
@@ -17,7 +18,7 @@ class ProductCategoryController extends Controller
     public function index()
     {
         if (!Auth::user()->hasAccessTo('view product category')) {
-            return redirect('dashboard')->with('error', 'Not allowed!');
+            return redirect()->route('dashboard')->with('error', 'Not allowed!');
         }
 
         $data = ProductCategory::all();
@@ -31,7 +32,7 @@ class ProductCategoryController extends Controller
     public function create()
     {
         if (!Auth::user()->hasAccessTo('create product category')) {
-            return redirect('dashboard')->with('error', 'Not allowed!');
+            return redirect()->route('dashboard')->with('error', 'Not allowed!');
         }
         
         return view('product_category.create');
@@ -43,25 +44,28 @@ class ProductCategoryController extends Controller
     public function store(Request $request)
     {
         if (!Auth::user()->hasAccessTo('create product category')) {
-            return redirect('dashboard')->with('error', 'Not allowed!');
+            return redirect()->route('dashboard')->with('error', 'Not allowed!');
         }
         
         $this->validate($request, [
             'name' => 'required|unique:product_categories'
         ]);
 
+        $category = new ProductCategory();
+        $category->user_id = $request->user()->id;
+        $category->name = $request->name;
+        $category->description = $request->description;
+
         if ($request->hasFile('image')) {
-            $destination_path = 'public/images/product_categories';
+            $destination_path = 'public/images/product_category';
             $image = $request->file('image');
             $image_name = date("YmdHis").$image->getClientOriginalName();
             $image->storeAs($destination_path, $image_name);
+
+            $category->image = $image_name;
         }
 
-        $request->user()->categories()->create([
-            $request->name,
-            $request->description,
-            $image_name,
-        ]);
+        $category->save();
 
         return redirect()->route('categories')->with('success', 'Added Successfully!');
     }
@@ -72,7 +76,7 @@ class ProductCategoryController extends Controller
     public function show(ProductCategory $productCategory)
     {
         if (!Auth::user()->hasAccessTo('view product category')) {
-            return redirect('dashboard')->with('error', 'Not allowed!');
+            return redirect()->route('dashboard')->with('error', 'Not allowed!');
         }
         
         return view('product_category.show', ['productCategory' => $productCategory]);
@@ -84,7 +88,7 @@ class ProductCategoryController extends Controller
     public function edit(ProductCategory $productCategory)
     {
         if (!Auth::user()->hasAccessTo('update product category')) {
-            return redirect('dashboard')->with('error', 'Not allowed!');
+            return redirect()->route('dashboard')->with('error', 'Not allowed!');
         }
         
         return view('product_category.edit', ['productCategory' => $productCategory]);
@@ -96,25 +100,33 @@ class ProductCategoryController extends Controller
     public function update(Request $request, ProductCategory $productCategory)
     {
         if (!Auth::user()->hasAccessTo('update product category')) {
-            return redirect('dashboard')->with('error', 'Not allowed!');
+            return redirect()->route('dashboard')->with('error', 'Not allowed!');
         }
         
         $this->validate($request, [
-            'name' => 'required'
+            'name' => 'required',
+            'image' => 'mimes:jpg,png'
         ]);
 
+        $category = ProductCategory::find($productCategory->id);
+        $category->name = $request->name;
+        $category->description = $request->description;
+
         if ($request->hasFile('image')) {
+            
+            if (Storage::exists('public/images/product_category/'.$productCategory->image)) {
+                Storage::delete('public/images/product_category/'.$productCategory->image);
+            }
+            
             $destination_path = 'public/images/product_category';
             $image = $request->file('image');
             $image_name = date("YmdHis").$image->getClientOriginalName();
             $image->storeAs($destination_path, $image_name);
+
+            $category->image = $image_name;
         }
 
-        $productCategory->update([
-            $request->name,
-            $request->description,
-            $image_name,
-        ]);
+        $category->save();
 
         return redirect()->route('categories')->with('success', 'Updated Successfully!');
     }
@@ -125,7 +137,7 @@ class ProductCategoryController extends Controller
     public function destroy(ProductCategory $productCategory)
     {
         if (!Auth::user()->hasAccessTo('delete product category')) {
-            return redirect('dashboard')->with('error', 'Not allowed!');
+            return redirect()->route('dashboard')->with('error', 'Not allowed!');
         }
         
         $productCategory->delete();

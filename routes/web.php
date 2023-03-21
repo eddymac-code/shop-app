@@ -59,10 +59,10 @@ Route::group(['prefix' => 'product-category'], function() {
         Route::get('data', 'index')->name('categories');
         Route::get('create', 'create')->name('create-category');
         Route::post('create', 'store');
-        Route::get('{product_category}/show', 'show')->name('show-category');
-        Route::get('{product_category}/edit', 'edit')->name('edit-category');
-        Route::put('{product_category}/edit', 'update');
-        Route::delete('{product_category}/delete','destroy')->name('delete-category');
+        Route::get('{productCategory}/show', 'show')->name('show-category');
+        Route::get('{productCategory}/edit', 'edit')->name('edit-category');
+        Route::put('{productCategory}/edit', 'update');
+        Route::delete('{productCategory}/delete','destroy')->name('delete-category');
     });
 });
 
