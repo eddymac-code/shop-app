@@ -41,11 +41,11 @@
             </div>
             <div class="panel-body">
                 <ul class="list-group p-2">
-                    @if($productCategory->products)
+                    @if(!$productCategory->products)
                         <li class="list-group-item">No products here yet.</li>
                     @else
                         @foreach ($productCategory->products as $product)
-                            <li class="list-group-item"><a href="{{ route('show-product', $prroduct->id) }}">
+                            <li class="list-group-item"><a href="{{ route('show-product', $product->id) }}">
                                 {{ $product->name }}</a></li>
                         @endforeach
                     @endif

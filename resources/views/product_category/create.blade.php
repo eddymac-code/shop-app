@@ -44,7 +44,7 @@
               <textarea name="description" id="description" cols="30" class="form-control">{{ old('description') }}</textarea>
             </div>
             <div class="mb-3">
-              <label for="logo" class="form-label">Image</label>
+              <label for="image" class="form-label">Image</label>
               <input type="file" name="image" class="form-control">
             </div>
             <button type="submit" class="mb-3 btn btn-primary">Save</button>

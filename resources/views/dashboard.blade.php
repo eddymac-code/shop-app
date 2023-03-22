@@ -24,6 +24,11 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
+        @if (session('error'))
+            <div class="bg-danger text-light rounded px-4 py-3 mb-3 text-center">
+                {{ session('error') }}
+            </div>
+        @endif
         <!-- Small boxes (Stat box) -->
         <div class="row">
           <div class="col-lg-3 col-6">
